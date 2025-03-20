@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--For more information on using transformations see the web.config examples at http://go.microsoft.com/fwlink/?LinkId=214134. -->
+<RunSettings xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <TestRunParameters>
+    <Parameter name="Browser" value="chrome" />
+    <Parameter name="commonsAppUrl" value="https://commons.qa1.ncu.edu" />
+    <Parameter name="alumniOptInUrl" value="https://commons.qa1.ncu.edu/alumni/optin" />
+
+    <!--Parameter name="SSOUserName" value="A.Abiodun9916@o365.qa.ncu.edu""/-->
+    <Parameter name="SSOUserName" value="K.Crain8422@o365.qa.ncu.edu"/> 
+
+    <Parameter name="SSOPassword" value="Guest2011" />
+    <Parameter name="NonSSOUserName" value="vsinhaadmin" />
+    <Parameter name="NonSSOPassword" value="vsinhaadmin" />
+    <Parameter name="JFKSchoolUserName" value="K.Crain8422@o365.qa.ncu.edu" />
+    <Parameter name="JFKSchoolPassword" value="Guest2011" />
+    <Parameter name="Environment" value="QA1" />
+    <Parameter name="GenerateLocal" value="true" />
+    <Parameter name="ErrorLog" value="\ErrorLog\" />
+    <Parameter name="ReportPath" value="\Reports\" />
+    <Parameter name="SharedErrorLog" value="\\fs1\ITShare\QA Testing\Automation\Results\QA\Commons\ErrorLogs\" />
+    <Parameter name="SharedReportPath" value="\\fs1\ITShare\QA Testing\Automation\Results\QA\Commons\Reports\" />
+    <Parameter name="UploadPath" value="\UploadFile\sample.pdf" />
+    <Parameter name="UploadM4PPath" value="\UploadFile\M4PSample.m4p" />
+    <Parameter name="UploadImagePath" value="\UploadFile\NCU Image.png" />
+    <Parameter name="OutLookMentorBetaWebMail" value="https://outlook.office.com/mail/"/>
+    <Parameter name="SystemUserName" value="mpal"/>
+    <Parameter name="OutLookServiceAcnt" value="qaautomation_svc@nu.edu"/>
+    <Parameter name="OutLookServiceAcntPassword" value="?EWNq'Z38'#WZE3N+t5b%juSD3m=U0(\"/>
+    <Parameter name="ncuqadb" value="Data Source=lvqasql00ls; Initial Catalog=NCU;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False" />
+    <Parameter name="directLinkUrl" value="https://commons.qa1.ncu.edu/user/24976?n=44664" />
+    <Parameter name="LearnerFistNameASCPaymentscreen" value="Ashia"/>
+    <Parameter name="LearnerLastNameASCPaymentscreen" value="McReynolds"/>
+    <Parameter name="LearnerIdASCPaymentscreen" value="2061519916"/>
+    <Parameter name="ArchivedAlumniStudent" value="qatestuser"/>
+  </TestRunParameters> 
+</RunSettings>

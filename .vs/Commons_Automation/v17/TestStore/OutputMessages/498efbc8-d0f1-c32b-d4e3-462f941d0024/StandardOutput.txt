@@ -1,0 +1,30 @@
+********************** Test Cases is Running against **********: QA1
+********************** URL Accessed is ************** :  https://commons.qa1.ncu.edu
+********************** You Can check Error from this Path *********** :   C:\Users\vsinha\Source\Repos\Common-QA-Automation\Commons_Automation\ErrorLog\
+********************** You Can check Report from this Path *********** C:\Users\vsinha\Source\Repos\Common-QA-Automation\Commons_Automation\Reports\
+Activity in my Communities
+6
+Welcome to The Commons Learning Resources
+mailto:servicedesk@ncu.edu
+mailto:commons@ncu.edu
+https://www.ncu.edu/consumer-info/code-of-conduct-policy#gref
+Our Community Promise - As a community, we will: support you by providing a safe place, value your unique journey towards your dreams and goals, share resources and our experiences to respond to your inquiries and to inspire you, encourage and advocate for you during challenges and celebrate your successes!
+
+The Commons engagement guidelines were developed to promote quality experiences and a supportive academic culture that supports us to fulfill our community promise to each other and benefits all members. The guidelines supplement the NU Student Code of Conduct found in the Policies and Procedures of the Course Catalog and the Fair Use provisions of the Copyright Act, which precludes posting of copyrighted materials in The Commons. Linking to original material, or posting snippets to introduce a topic, with links and proper citation, falls under academic Fair Use. As you engage in The Commons please support and follow these engagement guidelines:
+
+Express Respect. Together, as members of The Commons, we create an environment of respect, professionalism, and courtesy. We are committed to open and constructive communication that is free from name-calling, sarcasm, intimidation, harassment, or any prejudicial conduct against a particular community or social group.
+
+Emphasize Inquiry. We strive to create an environment of inquiry that fosters insightful and non-threatening sharing of ideas, knowledge, skills, and experiences that aim to increase learning and support. We attempt to suspend assumptions, test inferences, and explain the reasons behind claims, questions, and actions. We understand our responsibility to countercheck information and resources posted by others when considering their use in other applications.
+
+Invite Engagement. We participate in group discussions and postings to engage in a learning conversation and invite questions and comments from others. We advocate for respectfully challenging each other’s ideas and raising counterexamples while refraining from personal attacks.
+
+Refrain from Soliciting. In The Commons, our interactions focus on academics and community engagement; therefore, we prohibit soliciting business of any kind.  We can make recommendations for helpful resources, but no one should attempt to solicit business for themselves or others in posts, comments, or private messages. 
+
+Appreciate Diversity. As a diverse community, we value opportunities to express and learn from our unique perspectives. We strive for authentic conversations that lead to growth. We listen to understand. We encourage and appreciate each other’s unique contributions.
+
+Assume Positive Intent and Acknowledge Unintended Impacts. We know that at times we can misunderstand another’s communication or passionately overstate a feeling or belief we have. When these situations arise, we look towards the positive intent of the posting and respond with genuine inquiry and respect and acknowledge the possible unintended impact of the post or reaction.
+
+NU reserves the right to edit, move or remove posts, comments, members, content, or media that don’t represent our NU values or our community purposes, don’t align with our engagement guidelines, contain content considered to be a violation of NU's Code of Conduct Policy, recruit participants for NU dissertation research, solicit business of any kind, and when there is a concern about someone's safety.  In addition, overstepping these boundaries may result in disabled accounts, other restrictions, or a code of conduct violation. 
+
+National University is committed to maintaining a community with exceptional ethical standards of professional and academic conduct.  We encourage lively discourse among us as academic scholars. We each have an opportunity to help uphold the quality of engagement we envision. If you are ever concerned about a post or exchange between two community members report the post by clicking on the Report an Issue link on the bottom of any page in the Commons or emailing Commons@ncu.edu. To ensure we can follow up on your concern please include in your email the link to the conversation. 
+5

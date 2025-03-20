@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Commons_Automation/bin
+/Commons_Automation/obj
+/packages
+/.vs/Commons_Automation/v15
+/Commons_Automation/Reports/ExtentReport.html
+/Commons_Automation/Reports/CommonsAutomationReport.html
+/Commons_Automation/Reports/AutomationReport.html
+/Commons_Automation/Reports/CommonsAutomationReport_QA.html
+/Commons_Automation/Reports/CommonsAutomationReport_UAT.html
+/Commons_Automation/Reports/CommonsAutomationReport_QA2.html
+/Commons_Automation/Reports/CommonsAutomationReport_AWS.html
+/Commons_Automation/Reports/CommonsAutomationReport_QA1.html
+/Commons_Automation/Reports
+/Commons_Automation/ErrorLog
