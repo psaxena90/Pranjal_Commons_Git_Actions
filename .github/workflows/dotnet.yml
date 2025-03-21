@@ -39,7 +39,7 @@ jobs:
       run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
       
     - name: Test
-      run: |
+      run: dotnet test --configuration Release --no-build
         # Replace with your actual test command
         # For example, using VSTest:
         # "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Extensions\TestPlatform\vstest.console.exe" Commons_Automation\bin\Release\Commons_Automation.dll
