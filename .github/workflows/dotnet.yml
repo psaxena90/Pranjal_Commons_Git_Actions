@@ -1,34 +1,32 @@
-name: .NET Test Automation
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
   build:
+
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
+    - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '9.0.x' # Your current .NET SDK version
-
+        dotnet-version: 9.0.x
     - name: Install .NET Framework 4.6.1 Developer Pack
       run: |
         choco install netfx-4.6.1-devpack -y
       shell: pwsh
-
     - name: Restore dependencies
       run: dotnet restore
-
     - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
