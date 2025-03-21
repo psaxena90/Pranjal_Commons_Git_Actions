@@ -24,7 +24,16 @@ jobs:
       shell: pwsh
       
     - name: Restore NuGet packages
-      run: nuget restore Commons_Automation\Commons_Automation.csproj
+      run: |
+        # First try with solution file if it exists
+        if (Test-Path "*.sln") {
+          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
+          nuget restore $solutionFile
+        } else {
+          # Otherwise specify packages directory
+          nuget restore Commons_Automation\Commons_Automation.csproj -PackagesDirectory packages
+        }
+      shell: pwsh
       
     - name: Build
       run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
