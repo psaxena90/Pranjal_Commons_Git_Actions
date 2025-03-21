@@ -26,6 +26,17 @@ jobs:
         mkdir -p Commons_Automation\ErrorLog
       shell: pwsh
     
+    - name: Setup Chrome
+      uses: browser-actions/setup-chrome@latest
+    
+    - name: Setup ChromeDriver
+      uses: nanasess/setup-chromedriver@master
+    
+    - name: Start ChromeDriver
+      run: |
+        chromedriver --url-base=/wd/hub &
+      shell: bash
+    
     - name: Restore NuGet packages
       run: |
         if (Test-Path "*.sln") {
@@ -45,4 +56,5 @@ jobs:
     - name: Test
       run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
       env:
-        TEST_URL: "https://commons.qa1.ncu.edu"  # Replace with actual URL
+        TEST_URL: "https:commons.qa1.ncu.edu"  # Replace with your actual URL
+        SELENIUM_REMOTE_URL: "http://localhost:9515"
