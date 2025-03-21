@@ -21,6 +21,11 @@ jobs:
       run: choco install netfx-4.6.1-devpack -y
       shell: pwsh
     
+    - name: Create required directories
+      run: |
+        mkdir -p Commons_Automation\ErrorLog
+      shell: pwsh
+    
     - name: Restore NuGet packages
       run: |
         if (Test-Path "*.sln") {
@@ -39,3 +44,5 @@ jobs:
     
     - name: Test
       run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
+      env:
+        TEST_URL: "https://commons.qa1.ncu.edu"  # Replace with actual URL
