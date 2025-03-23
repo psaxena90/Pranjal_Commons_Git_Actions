@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: CPC-psaxe-31OTU  # Changed from windows-latest to your self-hosted runner
     steps:
     - uses: actions/checkout@v4
     
