@@ -24,7 +24,7 @@ jobs:
           Write-Error "MSBuild not found. Is Visual Studio 2022 installed?"
           exit 1
         }
-      shell: pwsh
+      shell: powershell
     
     - name: Restore NuGet packages
       run: |
@@ -35,13 +35,13 @@ jobs:
         }
         $solutionFile = Get-ChildItem -Path . -Filter *.sln | Select-Object -First 1
         & $nugetPath restore $solutionFile
-      shell: pwsh
+      shell: powershell
     
     - name: Build
       run: |
         $solutionFile = Get-ChildItem -Path . -Filter *.sln | Select-Object -First 1
         & "${{ env.MSBUILD_PATH }}" $solutionFile /p:Configuration=Release /p:Platform="Any CPU"
-      shell: pwsh
+      shell: powershell
     
     - name: Test
       run: |
@@ -55,4 +55,4 @@ jobs:
           Write-Error "No test assemblies found"
           exit 1
         }
-      shell: pwsh
+      shell: powershell
