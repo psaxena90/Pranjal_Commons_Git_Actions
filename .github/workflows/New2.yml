@@ -28,7 +28,7 @@ jobs:
           # If no solution file, use project file
           nuget restore C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\Commons_Automation.csproj
         }
-      shell: pwsh
+      shell: powershell
       
     - name: Build solution
       run: |
@@ -59,4 +59,4 @@ jobs:
         else {
           dotnet test --no-build --configuration Release
         }
-      shell: pwsh
+      shell: powershell
