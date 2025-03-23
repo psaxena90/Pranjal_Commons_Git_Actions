@@ -10,17 +10,7 @@ jobs:
     runs-on: self-hosted  # Using the self-hosted runner configured on your local machine
     steps:
     - uses: actions/checkout@v4  # Checkout the repository code
-    
-    - name: Restore NuGet packages
-      run: |
-        if (Test-Path "*.sln") {
-          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
-          nuget restore $solutionFile
-        } else {
-          nuget restore Commons_Automation\Commons_Automation.csproj -PackagesDirectory packages
-        }
-      shell: pwsh
-    
+
     - name: Build
       run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
       shell: cmd  # Using cmd since MSBuild is typically invoked this way on Windows
