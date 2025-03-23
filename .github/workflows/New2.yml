@@ -15,48 +15,84 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       
-    # Since we're using a self-hosted runner on your local machine,
-    # we can skip installing tools if they're already available
-    
+    - name: Install NuGet
+      run: |
+        $nugetPath = "C:\nuget\nuget.exe"
+        if (-not (Test-Path $nugetPath)) {
+          New-Item -ItemType Directory -Path "C:\nuget" -Force
+          Invoke-WebRequest -Uri "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe" -OutFile $nugetPath
+        }
+        # Add to PATH for current session
+        $env:PATH = "C:\nuget;" + $env:PATH
+        # Verify NuGet works
+        & $nugetPath
+      shell: powershell
+      
     - name: Restore NuGet packages
       run: |
+        $nugetPath = "C:\nuget\nuget.exe"
         # First try with solution file
         if (Test-Path "*.sln") {
           $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
-          nuget restore $solutionFile
+          & $nugetPath restore $solutionFile
         } else {
           # If no solution file, use project file
-          nuget restore C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\Commons_Automation.csproj
+          & $nugetPath restore YourProjectName\YourProjectName.csproj
         }
       shell: powershell
       
     - name: Build solution
       run: |
+        # Check if MSBuild is in path
+        $msbuildPath = $null
+        if (Get-Command "msbuild" -ErrorAction SilentlyContinue) {
+          $msbuildPath = "msbuild"
+        } elseif (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe") {
+          $msbuildPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        } elseif (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe") {
+          $msbuildPath = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        } else {
+          Write-Error "MSBuild not found"
+          exit 1
+        }
+        
         if (Test-Path "*.sln") {
           $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
-          msbuild $solutionFile /p:Configuration=Release
+          Write-Host "Building solution: $solutionFile"
+          & $msbuildPath $solutionFile /p:Configuration=Release
         } else {
           # If no solution file, use project file
-          msbuild C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
+          Write-Host "Building project: Commons_Automation\Commons_Automation.csproj"
+          & $msbuildPath Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
         }
+      shell: powershell
       
     - name: Run tests
       run: |
-        # If using MSTest/VSTest
-        if (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe") {
-          & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" YourProjectName\bin\Release\YourProjectName.dll
-        } 
-        # If in VS 2022 path
-        elseif (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe") {
-          & "C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" YourProjectName\bin\Release\YourProjectName.dll
+        # Try to find VSTest
+        $vstestPath = $null
+        if (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe") {
+          $vstestPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+        } elseif (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\*\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe") {
+          $vstestPath = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\*\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
         }
-        # If using NUnit
-        elseif (Test-Path "packages\NUnit.ConsoleRunner*\tools\nunit3-console.exe") {
-          $nunitConsole = Get-ChildItem -Path "packages\NUnit.ConsoleRunner*\tools\nunit3-console.exe" -Recurse | Select-Object -First 1
-          & $nunitConsole C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\bin\Release\YourProjectName.dll
+        
+        # Try to find the test DLL
+        $testDllPath = $null
+        if (Test-Path "Commons_Automation\bin\Release\Commons_Automation.dll") {
+          $testDllPath = "Commons_Automation\bin\Release\Commons_Automation.dll"
+        } else {
+          $testDllPath = Get-ChildItem -Path ".\YourProjectName\bin\Release\*.dll" -Recurse | Where-Object { $_.Name -match "Test" } | Select-Object -First 1 -ExpandProperty FullName
         }
-        # Fallback to dotnet test
-        else {
+        
+        if ($vstestPath -and $testDllPath) {
+          Write-Host "Running tests with VSTest: $testDllPath"
+          & $vstestPath $testDllPath
+        } elseif (Get-Command "dotnet" -ErrorAction SilentlyContinue) {
+          Write-Host "Running tests with dotnet test"
           dotnet test --no-build --configuration Release
+        } else {
+          Write-Error "No test runner found"
+          exit 1
         }
       shell: powershell
