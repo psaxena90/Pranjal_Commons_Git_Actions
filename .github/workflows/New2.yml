@@ -41,31 +41,31 @@ jobs:
         }
       shell: powershell
       
-    - name: Build solution
-      run: |
-        # Check if MSBuild is in path
-        $msbuildPath = $null
-        if (Get-Command "msbuild" -ErrorAction SilentlyContinue) {
-          $msbuildPath = "msbuild"
-        } elseif (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe") {
-          $msbuildPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
-        } elseif (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe") {
-          $msbuildPath = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
-        } else {
-          Write-Error "MSBuild not found"
-          exit 1
-        }
-        
-        if (Test-Path "*.sln") {
-          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
-          Write-Host "Building solution: $solutionFile"
-          & $msbuildPath $solutionFile /p:Configuration=Release
-        } else {
-          # If no solution file, use project file
-          Write-Host "Building project: Commons_Automation\Commons_Automation.csproj"
-          & $msbuildPath Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
-        }
-      shell: powershell
+- name: Build solution
+  run: |
+    # Check if MSBuild is in path
+    $msbuildPath = $null
+    if (Get-Command "msbuild" -ErrorAction SilentlyContinue) {
+      $msbuildPath = "msbuild"
+    } elseif (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe") {
+      $msbuildPath = Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\*\MSBuild\Current\Bin\MSBuild.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+    } elseif (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe") {
+      $msbuildPath = Get-ChildItem -Path "C:\Program Files\Microsoft Visual Studio\2022\*\MSBuild\Current\Bin\MSBuild.exe" -Recurse | Select-Object -First 1 -ExpandProperty FullName
+    } else {
+      Write-Error "MSBuild not found"
+      exit 1
+    }
+    
+    if (Test-Path "*.sln") {
+      $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
+      Write-Host "Building solution: $solutionFile"
+      & $msbuildPath $solutionFile /p:Configuration=Release /p:Platform="Any CPU"
+    } else {
+      # If no solution file, use project file
+      Write-Host "Building project: Commons_Automation\Commons_Automation.csproj"
+      & $msbuildPath Commons_Automation\Commons_Automation.csproj /p:Configuration=Release /p:Platform="Any CPU"
+    }
+  shell: powershell
       
     - name: Run tests
       run: |
