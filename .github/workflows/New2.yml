@@ -1,23 +1,62 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+name: .NET Test Automation
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
-  build:
-
-    runs-on: self-hosted
-
+  test:
+    runs-on: self-hosted  # Uses your local self-hosted runner
+    
     steps:
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    # Since we're using a self-hosted runner on your local machine,
+    # we can skip installing tools if they're already available
+    
+    - name: Restore NuGet packages
+      run: |
+        # First try with solution file
+        if (Test-Path "*.sln") {
+          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
+          nuget restore $solutionFile
+        } else {
+          # If no solution file, use project file
+          nuget restore C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\Commons_Automation.csproj
+        }
+      shell: pwsh
+      
+    - name: Build solution
+      run: |
+        if (Test-Path "*.sln") {
+          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
+          msbuild $solutionFile /p:Configuration=Release
+        } else {
+          # If no solution file, use project file
+          msbuild C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
+        }
+      
+    - name: Run tests
+      run: |
+        # If using MSTest/VSTest
+        if (Test-Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe") {
+          & "C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" YourProjectName\bin\Release\YourProjectName.dll
+        } 
+        # If in VS 2022 path
+        elseif (Test-Path "C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe") {
+          & "C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" YourProjectName\bin\Release\YourProjectName.dll
+        }
+        # If using NUnit
+        elseif (Test-Path "packages\NUnit.ConsoleRunner*\tools\nunit3-console.exe") {
+          $nunitConsole = Get-ChildItem -Path "packages\NUnit.ConsoleRunner*\tools\nunit3-console.exe" -Recurse | Select-Object -First 1
+          & $nunitConsole C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation\bin\Release\YourProjectName.dll
+        }
+        # Fallback to dotnet test
+        else {
+          dotnet test --no-build --configuration Release
+        }
+      shell: pwsh
