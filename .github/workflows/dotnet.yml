@@ -1,4 +1,4 @@
-name: .NET
+name: .NET Test Automation
 on:
   push:
     branches: [ "main" ]
@@ -6,20 +6,10 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: self-hosted  # Changed from windows-latest to your self-hosted runner
+  build-and-test:
+    runs-on: self-hosted  # Using the self-hosted runner configured on your local machine
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
-    
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
-    
-    - name: Install .NET Framework 4.6.1 Developer Pack
-      run: choco install netfx-4.6.1-devpack -y
-      shell: pwsh
+    - uses: actions/checkout@v4  # Checkout the repository code
     
     - name: Restore NuGet packages
       run: |
@@ -33,9 +23,8 @@ jobs:
     
     - name: Build
       run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
+      shell: cmd  # Using cmd since MSBuild is typically invoked this way on Windows
     
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1
-    
-    - name: Test
+    - name: Run Tests
       run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
+      shell: cmd  # Using cmd for consistency with VSTest
