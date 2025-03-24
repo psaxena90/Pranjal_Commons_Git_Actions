@@ -23,7 +23,11 @@ jobs:
       shell: cmd
 
     - name: Restore NuGet packages
-      run: nuget.exe restore Commons_Automation/Commons_Automation.csproj -PackagesDirectory ..\packages
+      run: nuget.exe restore Commons_Automation/Commons_Automation.csproj -PackagesDirectory C:\actions-runner\_work\Pranjal_Commons_Git_Actions\Pranjal_Commons_Git_Actions\packages -Verbosity detailed
+      shell: cmd
+
+    - name: Verify NuGet packages
+      run: dir C:\actions-runner\_work\Pranjal_Commons_Git_Actions\Pranjal_Commons_Git_Actions\packages
       shell: cmd
 
     - name: Build with MSBuild
