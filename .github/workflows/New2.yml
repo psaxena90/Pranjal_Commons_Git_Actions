@@ -1,31 +1,41 @@
-name: .NET Test Automation
-
+name: .NET
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: self-hosted
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: '9.0.201' # Updated to your SDK version
-
-    - name: Restore dependencies
-      run: dotnet restore C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
-
-    - name: Build the project
+    - uses: actions/checkout@v4
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+    
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+    
+    - name: Install .NET Framework 4.6.1 Developer Pack
+      run: choco install netfx-4.6.1-devpack -y
+      shell: pwsh
+    
+    - name: Restore NuGet packages
+      run: |
+        if (Test-Path "*.sln") {
+          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
+          nuget restore $solutionFile
+        } else {
+          nuget restore Commons_Automation\Commons_Automation.csproj -PackagesDirectory packages
+        }
+      shell: pwsh
+    
+    - name: Build
       run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
-
-    - name: Run tests
-      run: dotnet test --no-restore --verbosity normal C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
+    
+    - name: Setup VSTest
+      uses: darenm/Setup-VSTest@v1
+    
+    - name: Test
+      run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
