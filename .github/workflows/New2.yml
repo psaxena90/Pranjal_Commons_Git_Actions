@@ -35,4 +35,4 @@ jobs:
       shell: cmd
 
     - name: Run tests
-      run: dotnet test Commons_Automation/Commons_Automation.csproj --no-build --verbosity normal
+      run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
