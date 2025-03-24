@@ -21,14 +21,11 @@ jobs:
       with:
         dotnet-version: '9.0.201' # Updated to your SDK version
 
-    - name: Change directory to project folder
-      run: cd Pranjal_Commons_Git_Actions
-
     - name: Restore dependencies
-      run: dotnet restore Commons_Automation.sln
+      run: dotnet restore C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
 
     - name: Build the project
-      run: dotnet build --configuration Release --no-restore --property:Platform="Any CPU" Commons_Automation.sln
+      run: dotnet build --configuration Release --no-restore --property:Platform="Any CPU" C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
 
     - name: Run tests
-      run: dotnet test --no-restore --verbosity normal Commons_Automation.sln
+      run: dotnet test --no-restore --verbosity normal C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
