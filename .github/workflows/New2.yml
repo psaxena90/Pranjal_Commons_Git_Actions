@@ -25,7 +25,7 @@ jobs:
       run: dotnet restore C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
 
     - name: Build the project
-      run: dotnet build --configuration Release --no-restore --property:Platform="Any CPU" C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
+      run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
 
     - name: Run tests
       run: dotnet test --no-restore --verbosity normal C:\Git_Actions\Pranjal_Commons_Git_Actions\Commons_Automation.sln
