@@ -13,7 +13,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '9.0.3'  # Specify your .NET version here
+        dotnet-version: '9.0.201'  # Specify your .NET version here
 
     - name: Restore NuGet packages
       run: dotnet restore
