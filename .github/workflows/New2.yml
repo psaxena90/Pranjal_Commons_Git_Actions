@@ -13,15 +13,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '9.0.201'  # Specify your .NET version here
+        dotnet-version: '9.0.201'
 
-    - name: Restore dependencies
-      run: dotnet restore Commons_Automation/Commons_Automation.csproj
-        # Explicitly specify the .csproj file to ensure correct restoration
-
-    - name: Build
-      run: dotnet build Commons_Automation/Commons_Automation.csproj --no-restore
-        # Match the build to the same project file
+    - name: Build with MSBuild
+      run: msbuild Commons_Automation/Commons_Automation.csproj -t:Restore,Build -p:Configuration=Release
 
     - name: Run tests
       run: dotnet test Commons_Automation/Commons_Automation.csproj --no-build --verbosity normal
