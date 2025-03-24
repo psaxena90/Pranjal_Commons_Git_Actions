@@ -15,8 +15,12 @@ jobs:
       with:
         dotnet-version: '9.0.201'
 
+    - name: Clear NuGet cache
+      run: dotnet nuget locals all --clear
+
     - name: Build with MSBuild
-      run: msbuild Commons_Automation/Commons_Automation.csproj -t:Restore,Build -p:Configuration=Release
+      run: '"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\Bin\MSBuild.exe" Commons_Automation/Commons_Automation.csproj -t:Restore,Build -p:Configuration=Release'
+      shell: cmd  # Use cmd instead of PowerShell to avoid escaping issues
 
     - name: Run tests
       run: dotnet test Commons_Automation/Commons_Automation.csproj --no-build --verbosity normal
