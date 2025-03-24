@@ -15,8 +15,13 @@ jobs:
       with:
         dotnet-version: '9.0.201'  # Specify your .NET version here
 
-    - name: Restore NuGet packages
-      run: dotnet restore
+    - name: Restore dependencies
+      run: dotnet restore Commons_Automation/Commons_Automation.csproj
+        # Explicitly specify the .csproj file to ensure correct restoration
 
-    - name: Build project
-      run: dotnet build --no-restore
+    - name: Build
+      run: dotnet build Commons_Automation/Commons_Automation.csproj --no-restore
+        # Match the build to the same project file
+
+    - name: Run tests
+      run: dotnet test Commons_Automation/Commons_Automation.csproj --no-build --verbosity normal
