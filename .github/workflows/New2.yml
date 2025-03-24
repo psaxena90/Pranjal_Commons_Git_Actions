@@ -3,28 +3,23 @@ name: .NET Test Automation
 on:
   push:
     branches:
-      - main  # Trigger on pushes to main; adjust as needed
+      - main
   pull_request:
     branches:
-      - main  # Trigger on PRs to main; adjust as needed
+      - main
 
 jobs:
   test:
-    runs-on: self-hosted  # Use your self-hosted runner
+    runs-on: self-hosted  # Your self-hosted runner
     steps:
       - name: Checkout code
         uses: actions/checkout@v4  # Fetches your repository code
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '9.0.3'  # Specify your .NET version (e.g., 6.0.x, 7.0.x)
-
       - name: Restore dependencies
-        run: dotnet restore  # Restores NuGet packages
+        run: dotnet restore  # Uses the existing .NET SDK
 
       - name: Build
-        run: dotnet build --no-restore  # Builds the solution, skipping restore since it’s already done
+        run: dotnet build --no-restore  # Builds the solution
 
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal  # Runs tests without rebuilding
+        run: dotnet test --no-build --verbosity normal  # Runs tests
