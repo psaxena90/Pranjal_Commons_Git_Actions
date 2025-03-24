@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.0.x'  # Specify your .NET version (e.g., 6.0.x, 7.0.x)
+          dotnet-version: '9.0.3'  # Specify your .NET version (e.g., 6.0.x, 7.0.x)
 
       - name: Restore dependencies
         run: dotnet restore  # Restores NuGet packages
