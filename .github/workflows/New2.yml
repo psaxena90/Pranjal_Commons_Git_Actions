@@ -21,6 +21,9 @@ jobs:
       with:
         dotnet-version: '9.0.201' # Updated to your SDK version
 
+    - name: Change directory to project folder
+      run: cd Pranjal_Commons_Git_Actions
+
     - name: Restore dependencies
       run: dotnet restore
 
