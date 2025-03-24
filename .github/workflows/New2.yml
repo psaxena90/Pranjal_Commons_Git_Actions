@@ -1,41 +1,30 @@
-name: .NET
+name: .NET Test Automation
+
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main  # Trigger on pushes to main; adjust as needed
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main  # Trigger on PRs to main; adjust as needed
 
 jobs:
-  build:
-    runs-on: self-hosted
+  test:
+    runs-on: self-hosted  # Use your self-hosted runner
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.1
-    
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1
-    
-    - name: Install .NET Framework 4.6.1 Developer Pack
-      run: choco install netfx-4.6.1-devpack -y
-      shell: pwsh
-    
-    - name: Restore NuGet packages
-      run: |
-        if (Test-Path "*.sln") {
-          $solutionFile = Get-ChildItem -Path "*.sln" | Select-Object -First 1
-          nuget restore $solutionFile
-        } else {
-          nuget restore Commons_Automation\Commons_Automation.csproj -PackagesDirectory packages
-        }
-      shell: pwsh
-    
-    - name: Build
-      run: msbuild Commons_Automation\Commons_Automation.csproj /p:Configuration=Release
-    
-    - name: Setup VSTest
-      uses: darenm/Setup-VSTest@v1
-    
-    - name: Test
-      run: vstest.console.exe Commons_Automation\bin\Release\Commons_Automation.dll /Tests:ASCadminPage /Settings:"Commons_Automation\runsettings.QA.runsettings"
+      - name: Checkout code
+        uses: actions/checkout@v4  # Fetches your repository code
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'  # Specify your .NET version (e.g., 6.0.x, 7.0.x)
+
+      - name: Restore dependencies
+        run: dotnet restore  # Restores NuGet packages
+
+      - name: Build
+        run: dotnet build --no-restore  # Builds the solution, skipping restore since it’s already done
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal  # Runs tests without rebuilding
