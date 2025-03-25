@@ -14,21 +14,33 @@ namespace Commons_Automation
         {
             IWebDriver driver;
             string binPath = System.AppDomain.CurrentDomain.BaseDirectory;
+
+            // Check if running in GitHub Actions (CI environment)
+            bool isRunningInGitHubActions = Environment.GetEnvironmentVariable("GITHUB_ACTIONS")?.ToLower() == "true";
+
             switch (browser)
             {
                 case "chrome":
                     // Set up WebDriverManager for Chrome
                     new DriverManager().SetUpDriver(new ChromeConfig());
 
-                    // Configure Chrome options for headless mode
                     ChromeOptions options = new ChromeOptions();
-                    options.AddArgument("--headless"); // Enable headless mode
-                    options.AddArgument("--no-sandbox");
-                    options.AddArgument("--disable-gpu"); // Recommended for headless
-                    options.AddArgument("--window-size=1920,1080"); // Set window size
+                    options.AddArgument("no-sandbox");
 
-                    // Initialize ChromeDriver with WebDriverManager (no need to specify path)
-                    driver = new ChromeDriver(options);
+                    if (isRunningInGitHubActions)
+                    {
+                        // GitHub Actions configuration - headless
+                        options.AddArgument("--headless");
+                        options.AddArgument("--disable-gpu");
+                        options.AddArgument("--window-size=1920,1080");
+                    }
+                    else
+                    {
+                        // Local development configuration - visible browser
+                        // You can add any local-specific options here
+                    }
+
+                    driver = new ChromeDriver(ChromeDriverService.CreateDefaultService(), options, TimeSpan.FromMinutes(3));
                     driver.Manage().Timeouts().PageLoad.Add(System.TimeSpan.FromSeconds(90));
                     break;
 
