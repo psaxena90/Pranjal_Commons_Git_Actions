@@ -9,8 +9,8 @@
 ##########################################################################################################################################################
 <# START USER INPUTS#>
 
-$TESTSIGMA_API_KEY=<API_KEY_IN_DOUBLE_QUOTES>
-$TESTSIGMA_TEST_PLAN_ID=<TEST_PLAN_ID_IN_DOUBLE_QUITES>
+$TESTSIGMA_API_KEY="eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkMjBlOWM3NS1lMTAwLTQ3MWUtYTYzYi03ZjQwNDViYmUwODciLCJkb21haW4iOiJudS5lZHUiLCJ0ZW5hbnRJZCI6Njc1MzgsImlzSWRsZVRpbWVvdXRDb25maWd1cmVkIjpmYWxzZX0.lMMoMs9L10tA-EVllRSxir3pVtYMsBPk4hdfU8I76yelLU6cVsxRdX_-nom1n5_YMePxzL5PWzFeSjVj3b2NgQ"
+$TESTSIGMA_TEST_PLAN_ID="552"
 $REPORT_FILE_PATH="./junit-report.xml"
 $MAX_WAIT_TIME_FOR_SCRIPT_TO_EXIT=180
 
