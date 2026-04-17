@@ -17,4 +17,7 @@ jobs:
 
       - name: Run Testsigma Test Plan
         shell: pwsh
-        run: ./testsigma-trigger.ps1
+        working-directory: ${{ github.workspace }}
+        run: |
+          Set-Location "${{ github.workspace }}"
+          .\testsigma-trigger.ps1
