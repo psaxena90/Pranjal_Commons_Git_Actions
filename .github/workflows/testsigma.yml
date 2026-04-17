@@ -1,23 +1,22 @@
 name: Testsigma CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-  workflow_dispatch:
+ push:
+   branches:
+     - main
+     - master
+ workflow_dispatch:
 
 jobs:
-  run-testsigma:
-    runs-on: windows-latest        # ← Change this
+ run-testsigma:
+   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+   steps:
+     - name: Checkout code
+       uses: actions/checkout@v3
 
-      - name: Run Testsigma Test Plan
-        shell: pwsh
-        working-directory: ${{ github.workspace }}
-        run: |
-          Set-Location "${{ github.workspace }}"
-          .\testsigma-trigger.ps1
+     - name: Make script executable
+       run: chmod +x testsigma-trigger.sh
+
+     - name: Run Testsigma Test Plan
+       run: ./testsigma-trigger.ps1
